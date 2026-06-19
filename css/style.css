@@ -25,6 +25,21 @@
     padding: 0;
     box-sizing: border-box;
 }
+/* ==========================================
+   UX: Фокус клавіатури та читабельність (CSS)
+   ========================================== */
+/* Додай десь на початку, після скидання стилів (*) */
+:focus-visible {
+    outline: 2px solid var(--accent-purple);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.buy-btn:focus-visible, .btn-detail:focus-visible, 
+.btn-site:focus-visible, .submit-btn:focus-visible {
+    outline-offset: 6px;
+    border-radius: 50px;
+}
 
 html {
     scroll-behavior: smooth;
@@ -114,6 +129,7 @@ body.page-loaded {
     transform: translateX(-50%);
     width: min(92%, 1100px);
     z-index: 1000;
+    gap: 1rem;
 }
 
 .logo {
@@ -122,6 +138,27 @@ body.page-loaded {
     background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+/* Кнопка "Купити" — сразу справа від лого */
+.buy-btn {
+    margin-left: auto;
+    margin-right: 2rem; /* Розділяємо логотип і меню */
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.buy-btn:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+    transform: translateY(-2px);
 }
 
 .nav-links {
@@ -180,7 +217,7 @@ body.page-loaded {
 }
 
 .bio {
-    max-width: 600px;
+    max-width: 55ch; /* Замість 600px */
     margin: 0 auto;
     color: var(--text-gray);
 }
@@ -221,7 +258,7 @@ body.page-loaded {
     padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.about-text h3, .skills-card h3 {
+.about-text h3, .skills-card h3, .rating-card h3 {
     color: var(--accent-purple);
     margin-bottom: 1rem;
 }
@@ -239,12 +276,136 @@ body.page-loaded {
     border-radius: 50px;
     font-size: 0.8rem;
     transition: 0.3s ease;
+    word-break: break-word;
 }
 
 .tag:hover {
     background: var(--accent-purple);
     color: white;
     transform: translateY(-3px);
+}
+
+/* Тэги для блока "Potential" — пунктирная рамка, чтобы визуально читалось как "в процессе/план" */
+.tag-potential {
+    border-style: dashed;
+    border-color: var(--accent-pink);
+    background: rgba(236, 72, 153, 0.08);
+    color: var(--text-gray);
+}
+
+.tag-potential:hover {
+    background: var(--accent-pink);
+    color: white;
+    border-style: solid;
+}
+
+.potential-sub {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================
+   ACCORDION (Хто я? / Hard / Soft / Potential)
+   На десктопі — завжди розкрито і поводиться як звичайна картка.
+   На мобілці — згортається, керується стрілочкою.
+   ========================================== */
+.accordion-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: none;
+    border: none;
+    cursor: default;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+}
+
+.accordion-arrow {
+    display: none;
+    color: var(--accent-purple);
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.accordion-panel {
+    overflow: hidden;
+}
+
+.accordion-inner {
+    padding-top: 1rem;
+}
+
+/* ==========================================
+   RATING SECTION (оцінка порфоліо зірками)
+   Окрема секція під формою контактів.
+   ========================================== */
+#rating {
+    margin-top: var(--section-spacing);
+}
+
+.rating-card {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
+}
+
+.rating-sub {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.4rem;
+}
+
+/* Онови .star у розділі RATING SECTION */
+.star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    line-height: 1;
+    padding: 0.5rem; /* Збільшено з 0.2rem */
+    min-width: 44px; /* Мінімальна ширина для пальця */
+    min-height: 44px; /* Мінімальна висота для пальця */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(100%) opacity(0.4);
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.star:hover {
+    transform: scale(1.15);
+}
+
+.star.is-filled {
+    filter: grayscale(0%) opacity(1);
+}
+
+.rating-feedback {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    margin-top: 0.6rem;
+}
+
+.rating-feedback.is-set {
+    color: var(--accent-purple);
+    font-weight: 600;
 }
 
 /* ==========================================
@@ -264,9 +425,9 @@ body.page-loaded {
 }
 
 .project-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px); /* Було -8px — робимо рух делікатнішим */
     border-color: var(--accent-purple);
-    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 10px 25px rgba(168, 85, 247, 0.1); /* Менш агресивна тінь */
 }
 
 .p-img {
@@ -330,56 +491,133 @@ body.page-loaded {
     filter: brightness(1.1);
     box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
 }
-
 /* ==========================================
    CONTACT FORM
    ========================================== */
 .contact-wrapper {
+    padding: clamp(1.5rem, 5vw, 3rem);
     max-width: 800px;
     margin: 0 auto;
-    padding: clamp(1.5rem, 5vw, 3rem);
+    display: flex;
+    flex-direction: column;
 }
 
+.contact-sub {
+    text-align: center;
+    color: var(--text-gray);
+    margin-bottom: 2rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Ряд для Имени и Email (рядом на десктопе) */
 .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.form-row .form-field {
+    flex: 1; /* Поля занимают равное место */
 }
 
 .form-field {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    text-align: left;
 }
 
-.form-field input, .form-field textarea {
-    background: rgba(255, 255, 255, 0.05);
+.form-field label {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-left: 0.5rem;
+}
+
+/* Базовый вид полей (Стекло) */
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 0.8rem 1rem;
     border-radius: 12px;
-    color: white;
-    outline: none;
-    font-family: inherit;
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
 }
 
-.form-field input:focus, .form-field textarea:focus {
+.form-field textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Состояние фокуса */
+.form-field input:focus,
+.form-field textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
     border-color: var(--accent-purple);
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 50px;
-    background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
+/* Визуальная валидация (только когда пользователь уже начал печатать) */
+.form-field input:not(:placeholder-shown):invalid, 
+.form-field textarea:not(:placeholder-shown):invalid {
+    border-color: var(--accent-pink);
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0.2);
 }
 
+.form-field input:not(:placeholder-shown):valid, 
+.form-field textarea:not(:placeholder-shown):valid {
+    border-color: var(--accent-purple);
+}
+
+/* Кнопка отправки */
+.submit-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+    color: var(--text-white);
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 1rem;
+    align-self: center; /* Центрируем кнопку */
+    min-width: 250px;
+}
+
+.submit-btn:hover:not(:disabled) {
+    filter: brightness(1.1);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Состояние загрузки для кнопки */
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: var(--bg-deep);
+    border: 1px solid var(--accent-purple);
+    color: var(--accent-purple);
+}
+
+/* Адаптив для формы на телефонах */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .submit-btn {
+        width: 100%; /* Кнопка на всю ширину экрана на мобилке */
+    }
+}
 /* ==========================================
    ERROR PAGE
    ========================================== */
@@ -664,6 +902,12 @@ body.page-loaded {
     display: none;
 }
 
+/* Блокуємо скрол фону, коли мобільне меню відкрите */
+body.menu-open {
+    overflow: hidden !important;
+    touch-action: none; /* Блокує скрол на тач-девайсах */
+}
+
 @media (max-width: 600px) {
     .burger {
         display: flex;
@@ -673,6 +917,7 @@ body.page-loaded {
         height: 16px;
         cursor: pointer;
         z-index: 2000;
+        outline-offset: 8px;
     }
 
     .burger span {
@@ -696,7 +941,7 @@ body.page-loaded {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 2.5rem;
+        gap: 2rem;
         transform: translateX(100%);
         transition: transform 0.4s ease-in-out;
         z-index: 1500;
@@ -706,6 +951,51 @@ body.page-loaded {
     .nav-links.nav-active {
         transform: translateX(0%);
         visibility: visible;
+    }
+
+    .nav-links li {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .nav-links.nav-active li {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .nav-links.nav-active li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-links.nav-active li:nth-child(2) { transition-delay: 0.18s; }
+    .nav-links.nav-active li:nth-child(3) { transition-delay: 0.26s; }
+
+    .nav-links a {
+        font-size: 1.3rem;
+    }
+
+    /* Кнопка "Купити" продубльована всередині відкритого мобільного меню */
+    .nav-buy-mobile-item {
+        position: absolute;
+        bottom: clamp(2rem, 8vh, 4rem);
+        left: 50%;
+        opacity: 0 !important;
+        transform: translateX(-50%) translateY(12px) !important;
+        transition: opacity 0.35s ease 0.34s, transform 0.35s ease 0.34s;
+    }
+
+    .nav-links.nav-active .nav-buy-mobile-item {
+        opacity: 1 !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+
+    .nav-buy-mobile {
+        display: block;
+        padding: 0.7rem 2rem;
+        border-radius: 50px;
+        background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+        color: var(--text-white);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
     }
 
     .burger.toggle span:nth-child(1) {
@@ -783,6 +1073,12 @@ body.page-loaded {
         padding: 0.6rem 1rem;
     }
 
+    .buy-btn {
+        padding: 0.45rem 0.9rem;
+        font-size: 0.8rem;
+        margin-left: 0.6rem;
+    }
+
     .hero-content {
         padding: 2rem 1rem;
     }
@@ -794,6 +1090,39 @@ body.page-loaded {
     .p-buttons {
         flex-direction: column;
     }
+
+    /* Аккордеон активируется только на мобілці */
+    .accordion-toggle {
+        cursor: pointer;
+    }
+
+    .accordion-arrow {
+        display: inline-block;
+    }
+
+    .accordion-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.35s ease;
+    }
+
+    .accordion-panel > .accordion-inner {
+        overflow: hidden;
+        min-height: 0;
+        padding-top: 0;
+    }
+
+    .accordion-card.is-open .accordion-panel {
+        grid-template-rows: 1fr;
+    }
+
+    .accordion-card.is-open .accordion-panel > .accordion-inner {
+        padding-top: 1rem;
+    }
+
+    .accordion-card.is-open .accordion-arrow {
+        transform: rotate(180deg);
+    }
 }
 
 @media (max-width: 380px) {
@@ -803,5 +1132,10 @@ body.page-loaded {
 
     .project-card {
         padding: 0.8rem;
+    }
+
+    .buy-btn {
+        font-size: 0.72rem;
+        padding: 0.4rem 0.7rem;
     }
 }
