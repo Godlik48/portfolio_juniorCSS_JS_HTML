@@ -6,15 +6,13 @@ contactForm.addEventListener('submit', async function(e) {
     const submitBtn = this.querySelector('.submit-btn');
     const originalBtnText = submitBtn.textContent;
     
-    // Створюємо об'єкт з даними форми
     const formData = new FormData(this);
     
-    // Блокуємо кнопку на час відправки
+    // Блокуємо кнопку, застосовується CSS клас :disabled
     submitBtn.textContent = 'Надсилаю...';
     submitBtn.disabled = true;
 
     try {
-        // Заміни 'YOUR_FORM_ID' на ID, який отримаєш від Formspree
         const response = await fetch('https://formspree.io/f/xkoyezzd', {
             method: 'POST',
             body: formData,
@@ -24,15 +22,21 @@ contactForm.addEventListener('submit', async function(e) {
         });
 
         if (response.ok) {
-            alert('Дякую! Повідомлення успішно надіслано.');
-            contactForm.reset(); // Очищуємо форму
+            submitBtn.textContent = 'Успішно відправлено! ✓';
+            submitBtn.style.background = 'var(--accent-purple)';
+            contactForm.reset();
+            
+            // Повертаємо кнопку в норму через 3 секунди
+            setTimeout(() => {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.style.background = '';
+            }, 3000);
         } else {
-            alert('Ой! Сталася помилка. Спробуйте пізніше.');
+            throw new Error('Помилка сервера');
         }
     } catch (error) {
-        alert('Помилка з’єднання. Перевірте інтернет.');
-    } finally {
-        // Повертаємо кнопку в початковий стан
+        alert('Ой! Сталася помилка. Перевірте інтернет або спробуйте пізніше.');
         submitBtn.textContent = originalBtnText;
         submitBtn.disabled = false;
     }
